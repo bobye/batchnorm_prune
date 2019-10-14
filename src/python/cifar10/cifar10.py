@@ -29,7 +29,9 @@ import numpy as np
 from batchnorm_prune import Transformer
 from batchnorm_prune.block_proximal_gradient_descent import BlockProximalGradientDescentOptimizer
 from six.moves import urllib
-import tensorflow as tf
+import tensorflow
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 import cifar10_input
 
@@ -253,7 +255,7 @@ def inference(dt, images, is_training=True, is_compressed=False):
     Logits.
   """
 
-  slim = tf.contrib.slim
+  slim = tensorflow.contrib.slim
   with slim.arg_scope([slim.batch_norm],
                       is_training=is_training):      
   

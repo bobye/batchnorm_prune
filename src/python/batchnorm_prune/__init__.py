@@ -1,2 +1,3 @@
-import Graph
-import Transformer
+
+from . import Graph
+from . import Transformer

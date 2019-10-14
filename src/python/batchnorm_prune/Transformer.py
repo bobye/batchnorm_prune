@@ -1,6 +1,8 @@
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+
 from .Graph import NeuralFlow
-import cPickle as pickle
+import pickle
 import numpy as np
 import re
 
@@ -100,7 +102,7 @@ class Transformer(object):
         saved_filename = '/tmp/saved_flow_graph.pkl'
         if filename:
             saved_filename = filename
-        file_input=open(saved_filename, 'r')
+        file_input=open(saved_filename, 'rb')
         self.cached_flow = pickle.load(file_input)
 
     def prune(self, is_prune_variables):
@@ -417,7 +419,7 @@ class Transformer(object):
                                      or re.match('.*' + _remove_prefix(scope.name) + '/convolution/BatchToSpaceND_[0-9]+', v))
                                  and v not in self.cached_flow.zero_nodes])
                 assert(ind_in)
-                print 'output dim: %d => %d' % (channel_out, len(ind_out))
+                print('output dim: {} => {}'.format(channel_out, len(ind_out)))
                 if not ind_out:
                     return None
 

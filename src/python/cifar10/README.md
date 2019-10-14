@@ -9,8 +9,8 @@ This directory has the codes that reproduce the CIFAR-10 experiment in paper:
 ```
 
 # Prerequisites
- - python2
- - tensorflow 1.4 or above (GPU support is optional)
+ - python3.x
+ - tensorflow 1.4 (GPU support is optional)
 
 # How to run cifar10 experiments with batch normalization with ISTA
 

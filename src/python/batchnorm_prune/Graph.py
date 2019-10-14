@@ -52,21 +52,21 @@ class Flow(object):
             self.nodes[left].o.add(right)
             self.nodes[right].i.add(left)
         except KeyError:
-            print "Key Not Found:", left, "or", right
+            print("Key Not Found: {} or {}".format(left, right))
 
     def export_dot(self, filename):
         """ Export dot script for visualization """
-        print "strict digraph {"
-        print "rankdir=\"LR\""
+        print("strict digraph {")
+        print("rankdir=\"LR\"")
         for s in self.nodes.keys():
             for t in self.nodes[s].o:
-                print s.replace('/', '__'), " -> ", t.replace('/', '__')
-        print "}"
+                print(s.replace('/', '__') + " -> " + t.replace('/', '__'))
+        print("}")
 
     def print_summary(self):
-        print "number of nodes: ", len(self.nodes)
-        print "number of zero nodes: ", len(self.zero_nodes)
-        print "number of edges: ", sum([len(n.o) for n in self.nodes.values()])
+        print("number of nodes: {}".format( len(self.nodes) ))
+        print("number of zero nodes: {}".format( len(self.zero_nodes)))
+        print("number of edges: {}".format(sum([len(n.o) for n in self.nodes.values()])))
 
     def shadow_snapshot():
         new = Flow()
@@ -151,6 +151,7 @@ class NeuralFlow(Flow):
             visits = visits + len(b)
         return visits
     def get_channel_pruned(self, varname, v):
+        varname = varname.decode('utf-8')
         if len(self.edgename_map[varname]) == 2:
             v_in, v_out = self.edgename_map[varname]
             for i in range(v.shape[0]):

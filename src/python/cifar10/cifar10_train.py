@@ -22,14 +22,16 @@ from __future__ import print_function
 from datetime import datetime
 import time
 import re
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+tf.logging.set_verbosity(tf.logging.ERROR)
+
 from tqdm import tqdm
 
 import cifar10
 
 from batchnorm_prune import Transformer
 from batchnorm_prune.Graph import NeuralFlow
-from tensorflow.python.client import timeline
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -72,7 +74,7 @@ def train(graph = tf.Graph()):
   """Train CIFAR-10 for a number of steps."""
   with graph.as_default():
     with graph.device('/cpu:0'):
-      global_step = tf.contrib.framework.get_or_create_global_step()
+      global_step = tf.train.get_or_create_global_step()
 
       # Get images and labels for CIFAR-10.
       images, labels = cifar10.distorted_inputs()    
@@ -212,9 +214,9 @@ def train(graph = tf.Graph()):
 
 def main(argv=None):  # pylint: disable=unused-argument
   cifar10.maybe_download_and_extract()
-  if tf.gfile.Exists(FLAGS.train_dir):
-    tf.gfile.DeleteRecursively(FLAGS.train_dir)
-  tf.gfile.MakeDirs(FLAGS.train_dir)
+  if tf.io.gfile.exists(FLAGS.train_dir):
+    tf.io.gfile.rmtree(FLAGS.train_dir)
+  tf.io.gfile.makedirs(FLAGS.train_dir)
   train()
 
 

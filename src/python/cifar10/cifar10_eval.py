@@ -25,7 +25,9 @@ import time
 import re
 
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+tf.logging.set_verbosity(tf.logging.ERROR)
 
 import cifar10
 
